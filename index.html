@@ -1,0 +1,264 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="IdeaForge is a single-event hackathon for teams of two to four."
+    />
+    <meta name="theme-color" content="#090909" />
+    <title>IdeaForge — Build What Matters</title>
+    <link rel="icon" type="image/png" href="./assets/logo-transparent.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Nunito+Sans:wght@400;500;600;700;800;900&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./styles.css" />
+    <script type="module" src="./app.js"></script>
+  </head>
+  <body>
+    <div class="site-shell" id="public-view">
+      <header class="topbar">
+        <a class="brand" href="#home" aria-label="IdeaForge home">
+          <img src="./assets/logo-transparent.png" alt="" />
+          <span>IDEA<span class="brand-accent">FORGE</span></span>
+        </a>
+        <nav aria-label="Main navigation">
+          <a href="#about">The challenge</a>
+          <a href="#rules">Rules</a>
+          <a href="#register" class="nav-cta">Register <span aria-hidden="true">↗</span></a>
+        </nav>
+      </header>
+
+      <main>
+        <section class="hero section-wrap" id="home">
+          <div class="hero-copy">
+            <p class="eyebrow"><span class="pulse-dot"></span> One hackathon. Your next big idea.</p>
+            <h1>MAKE AN<br /><span>IDEA</span> REAL.</h1>
+            <p class="hero-lede">
+              Bring your people. Find a problem worth solving. Build something
+              that matters.
+            </p>
+            <div class="hero-actions">
+              <a class="button button-primary" href="#register">Register your team <span>↗</span></a>
+              <a class="text-link" href="#rules">Explore the rules <span>↓</span></a>
+            </div>
+            <div class="hero-facts">
+              <div><strong>02—04</strong><span>members per team</span></div>
+              <div><strong>01</strong><span>event. All in.</span></div>
+            </div>
+          </div>
+          <div class="hero-art" aria-label="IdeaForge dragon logo">
+            <div class="art-orbit orbit-one"></div>
+            <div class="art-orbit orbit-two"></div>
+            <div class="art-spark spark-one" aria-hidden="true">✳</div>
+            <div class="art-spark spark-two" aria-hidden="true">✦</div>
+            <div class="art-chip chip-one"><span>✳</span> IDEAS WELCOME</div>
+            <div class="art-chip chip-two"><span>↗</span> BUILD SOMETHING REAL</div>
+            <div class="art-index">IF / 001</div>
+            <img src="./assets/logo-transparent.png" alt="IdeaForge dragon emblem" />
+            <span class="art-caption">THINK IT. FORGE IT.</span>
+          </div>
+          <a class="scroll-cue" href="#about"><span></span> SCROLL TO EXPLORE</a>
+        </section>
+
+        <section class="intro section-wrap" id="about">
+          <div class="section-kicker"><span>01</span> THE CHALLENGE</div>
+          <div class="intro-content reveal">
+            <h2>Ideas don’t change<br />anything. <span>Builders do.</span></h2>
+            <div class="intro-aside">
+              <p>
+                IdeaForge is a focused, single-event hackathon for curious
+                minds ready to turn a real-world problem into a working idea.
+                Form a team of 2–4, bring your perspective, and make the time
+                count.
+              </p>
+              <a class="text-link" href="#register">Build with us <span>↗</span></a>
+            </div>
+          </div>
+          <div class="ticker" aria-hidden="true">
+            <div class="ticker-track">
+              <span>IMAGINE <b>✳</b> COLLABORATE <b>✳</b> BUILD <b>✳</b> SHIP <b>✳</b> IMAGINE <b>✳</b> COLLABORATE <b>✳</b> BUILD <b>✳</b> SHIP <b>✳</b></span>
+            </div>
+          </div>
+        </section>
+
+        <section class="rules-section section-wrap" id="rules">
+          <div class="section-kicker"><span>02</span> RULES OF THE FORGE</div>
+          <div class="rules-heading reveal">
+            <h2>Fair play.<br /><span>Bold thinking.</span></h2>
+            <p>Keep these in mind so every team gets a fair shot.</p>
+          </div>
+          <div class="rules-grid">
+            <article class="rule-card reveal">
+              <span class="rule-number">01</span>
+              <h3>Build your crew</h3>
+              <p>Each team must have 2–4 members. A participant may belong to one team only.</p>
+            </article>
+            <article class="rule-card reveal">
+              <span class="rule-number">02</span>
+              <h3>Make it yours</h3>
+              <p>Submit original work. Credit third-party code, datasets, APIs, and other resources you use.</p>
+            </article>
+            <article class="rule-card reveal">
+              <span class="rule-number">03</span>
+              <h3>Use tools responsibly</h3>
+              <p>AI tools and public resources are welcome unless announced otherwise. Your team must understand and explain its work.</p>
+            </article>
+            <article class="rule-card reveal">
+              <span class="rule-number">04</span>
+              <h3>Show what you built</h3>
+              <p>Be ready to demo your solution and explain the problem, your approach, and each member’s contribution.</p>
+            </article>
+            <article class="rule-card reveal">
+              <span class="rule-number">05</span>
+              <h3>Respect the room</h3>
+              <p>No plagiarism, harassment, unauthorized access, or disruption. Keep collaboration respectful and safe.</p>
+            </article>
+            <article class="rule-card reveal">
+              <span class="rule-number">06</span>
+              <h3>Play fair</h3>
+              <p>Follow organizer instructions and submit within the announced timelines. Organizer decisions are final.</p>
+            </article>
+          </div>
+          <p class="rules-note reveal">Event schedule, judging criteria, and any event-specific requirements will be shared by the organizers.</p>
+        </section>
+
+        <section class="register-section section-wrap" id="register">
+          <div class="section-kicker"><span>03</span> YOUR TEAM STARTS HERE</div>
+          <div class="register-layout">
+            <div class="register-intro reveal">
+              <h2>Bring your<br /><span>people.</span></h2>
+              <p>One person submits the team registration and enters the details for every member. You can add 2–4 participants.</p>
+              <div class="form-step"><span>01</span><p><strong>Team details</strong><br />Tell us who’s building.</p></div>
+              <div class="form-step"><span>02</span><p><strong>Payment details</strong><br />Upload proof and enter the UTR.</p></div>
+            </div>
+            <div class="form-panel reveal">
+              <div id="registration-setup" class="closed-notice">
+                <span class="closed-icon">…</span>
+                <div><strong>Connecting to registration…</strong><p>Please wait while we check the event status.</p></div>
+              </div>
+              <div id="registration-config-error" class="closed-notice" hidden>
+                <span class="closed-icon">!</span>
+                <div><strong>Registration is not available yet.</strong><p id="registration-config-message">Please contact the organizers.</p></div>
+              </div>
+              <div id="registration-closed" class="closed-notice" hidden>
+                <span class="closed-icon">!</span>
+                <div><strong>Registration is currently closed.</strong><p>Check back with the organizers for updates.</p></div>
+              </div>
+              <form id="team-form" hidden>
+                <div class="form-heading">
+                  <div><span class="form-overline">STEP 01 / 02</span><h3>Team details</h3></div>
+                  <span class="required-note">* REQUIRED</span>
+                </div>
+                <label class="field-label" for="team-name">Team name <span>*</span></label>
+                <input class="text-input" id="team-name" name="teamName" maxlength="60" placeholder="Give your team a name" required />
+                <div class="members-heading">
+                  <div><h4>Team members</h4><p>Enter a Gmail address and mobile number for everyone.</p></div>
+                  <div class="member-controls">
+                    <button class="icon-button" type="button" id="remove-member" aria-label="Remove last member">−</button>
+                    <span id="member-count">2 / 4</span>
+                    <button class="icon-button" type="button" id="add-member" aria-label="Add member">+</button>
+                  </div>
+                </div>
+                <div id="members-list" class="members-list"></div>
+                <p class="form-hint">The first member is the team contact and will be used for registration follow-up.</p>
+                <button class="button button-primary button-wide" type="submit">Continue to payment <span>→</span></button>
+                <p class="prototype-note">Your team details are saved securely for the organizers. The payment screenshot is used only to verify your registration.</p>
+              </form>
+
+              <form id="payment-form" hidden>
+                <div class="form-heading">
+                  <div><span class="form-overline">STEP 02 / 02</span><h3>Payment details</h3></div>
+                  <button class="back-button" type="button" id="back-to-team">← Edit team</button>
+                </div>
+                <div class="payment-team-summary" id="payment-team-summary"></div>
+                <label class="field-label" for="utr-number">UTR / transaction reference <span>*</span></label>
+                <input class="text-input" id="utr-number" name="utr" maxlength="80" placeholder="Enter the UTR shown in your screenshot" required />
+                <p class="form-hint">The UTR number must be clearly visible in the payment screenshot. Please make sure both match.</p>
+                <div class="upload-field">
+                  <label class="field-label" for="payment-screenshot">Payment screenshot <span>*</span></label>
+                  <label class="upload-box" for="payment-screenshot" id="upload-label">
+                    <span class="upload-icon">↑</span>
+                    <strong>Choose a screenshot</strong>
+                    <span>PNG, JPG or WEBP · Max 5 MB</span>
+                    <input id="payment-screenshot" name="screenshot" type="file" accept="image/png,image/jpeg,image/webp" required />
+                  </label>
+                  <div class="screenshot-preview" id="screenshot-preview" hidden></div>
+                </div>
+                <div class="demo-shot-placeholder">
+                  <span class="placeholder-icon">▧</span>
+                  <div><strong>Demo screenshot example</strong><p>Example payment screenshot will be added here.</p></div>
+                  <span class="placeholder-tag">COMING SOON</span>
+                </div>
+                <button class="button button-primary button-wide" type="submit">Submit registration <span>↗</span></button>
+                <p class="prototype-note">Payment proof is for admin review. This prototype does not process payments or send email.</p>
+              </form>
+              <div class="success-panel" id="registration-success" hidden>
+                <span class="success-mark">✓</span>
+                <span class="form-overline">REGISTRATION RECEIVED</span>
+                <h3>Your team is<br />in the forge.</h3>
+                <p id="success-message"></p>
+                <p class="prototype-note">This is a local prototype confirmation, not an official event confirmation. The organizers will verify payment after the live service is connected.</p>
+                <a class="text-link" href="#home">Back to the top <span>↑</span></a>
+              </div>
+            </div>
+          </div>
+        </section>
+      </main>
+      <footer class="footer section-wrap">
+        <a class="brand footer-brand" href="#home"><img src="./assets/logo-transparent.png" alt="" /><span>IDEA<span class="brand-accent">FORGE</span></span></a>
+        <p>Less talk. More tinkering. <span aria-hidden="true">✳</span></p>
+        <a class="footer-top-link" href="#home">Back to the top ↑</a>
+      </footer>
+      <div class="toast" id="toast" role="status" aria-live="polite"></div>
+    </div>
+
+    <main class="admin-shell" id="admin-view" hidden>
+      <header class="admin-topbar">
+        <a class="brand" href="./"><img src="./assets/logo-transparent.png" alt="" /><span>IDEA<span class="brand-accent">FORGE</span></span></a>
+        <span class="admin-label"><span class="pulse-dot"></span> ADMIN CONSOLE</span>
+        <button class="small-button" id="admin-sign-out" type="button" hidden>Sign out</button>
+        <a class="text-link" href="./">← Public site</a>
+      </header>
+      <section class="admin-content">
+        <section id="admin-login-panel" class="admin-login-panel" hidden>
+          <span class="admin-login-mark">✳</span>
+          <p class="eyebrow">IDEAFORGE / ADMIN</p>
+          <h1>Good to see<br /><span>you.</span></h1>
+          <p id="admin-login-message">Sign in with your approved Google account to manage the hackathon.</p>
+          <button class="button button-primary" id="admin-google-sign-in" type="button">Continue with Google <span>↗</span></button>
+        </section>
+        <div id="admin-connection-error" class="closed-notice" hidden>
+          <span class="closed-icon">!</span>
+          <div><strong>Admin connection unavailable</strong><p id="admin-connection-message"></p></div>
+        </div>
+        <div id="admin-dashboard" hidden>
+          <div class="admin-heading">
+            <div><p class="eyebrow">IDEAFORGE / EVENT CONTROL</p><h1>Admin <span>overview</span></h1></div>
+            <button class="button button-primary" id="toggle-registration" type="button">Loading…</button>
+          </div>
+          <div class="stats-grid">
+            <article class="stat-card"><span>TOTAL TEAMS</span><strong id="total-teams">0</strong></article>
+            <article class="stat-card"><span>PARTICIPANTS</span><strong id="total-members">0</strong></article>
+            <article class="stat-card"><span>PAYMENT PENDING</span><strong id="pending-payments">0</strong></article>
+            <article class="stat-card"><span>APPROVED</span><strong id="approved-payments">0</strong></article>
+          </div>
+          <section class="admin-registrations">
+            <div class="admin-table-heading"><div><p class="eyebrow">REGISTRATION ROSTER</p><h2>Teams &amp; payments</h2></div><span class="prototype-note">Live Supabase records</span></div>
+            <div id="admin-team-list" class="admin-team-list"></div>
+            <div class="empty-state" id="admin-empty"><span>✳</span><strong>No registrations yet</strong><p>Submitted teams will appear here.</p></div>
+          </section>
+        </div>
+      </section>
+      <footer class="footer admin-footer">
+        <p>IDEAFORGE / ADMIN CONSOLE</p>
+        <a class="text-link" href="./">Return to public site <span>↗</span></a>
+      </footer>
+      <div class="toast" id="admin-toast" role="status" aria-live="polite"></div>
+    </main>
+  </body>
+</html>

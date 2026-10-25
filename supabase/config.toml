@@ -1,0 +1,4 @@
+project_id = "qoohmhybhkhkccgjopqz"
+
+[functions.ideaforge-email-worker]
+verify_jwt = false

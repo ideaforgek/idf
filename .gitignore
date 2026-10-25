@@ -1,0 +1,12 @@
+# Local credentials and machine-specific settings
+.env
+.env.*
+!.env.example
+
+# Dependencies and generated output
+node_modules/
+dist/
+supabase/.temp/
+
+# Local debug output
+*.log
