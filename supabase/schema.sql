@@ -126,7 +126,12 @@ as $$
 declare
   v_team_id uuid;
   v_member_count integer;
+  v_authenticated_email text := lower(btrim(coalesce(auth.jwt() ->> 'email', '')));
 begin
+  if auth.uid() is null or v_authenticated_email = '' then
+    raise exception 'Sign in before registering your team';
+  end if;
+
   if not coalesce(
     (select s.registration_open from public.ideaforge_settings s where s.id = true),
     false
@@ -140,6 +145,10 @@ begin
 
   if p_members is null or jsonb_typeof(p_members) <> 'array' then
     raise exception 'Members must be supplied as a JSON array';
+  end if;
+
+  if lower(btrim(coalesce(p_members -> 0 ->> 'email', ''))) <> v_authenticated_email then
+    raise exception 'The team contact email must match your signed-in account';
   end if;
 
   v_member_count := jsonb_array_length(p_members);
@@ -195,7 +204,7 @@ end;
 $$;
 
 revoke all on function public.ideaforge_register_team(text, jsonb) from public;
-grant execute on function public.ideaforge_register_team(text, jsonb) to anon, authenticated;
+grant execute on function public.ideaforge_register_team(text, jsonb) to authenticated;
 
 create or replace function public.ideaforge_submit_payment(
   p_team_id uuid,

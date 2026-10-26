@@ -32,6 +32,7 @@ button:focus-visible, a:focus-visible, input:focus-visible { outline: 2px solid 
 .topbar nav a, .text-link { transition: color .2s ease; }
 .topbar nav a:hover, .text-link:hover { color: var(--orange); }
 .topbar nav .nav-cta { color: var(--text); border: 1px solid var(--line); padding: 11px 16px; }
+.topbar nav #profile-nav-link { white-space: nowrap; }
 .nav-cta span { color: var(--orange); margin-left: 8px; }
 
 .hero { min-height: 652px; display: grid; grid-template-columns: 1.04fr .96fr; align-items: center; position: relative; padding-block: 66px 100px; }
@@ -431,6 +432,35 @@ h1, h2, h3, h4, strong, .button, .brand { font-family: var(--font); }
 .admin-member-row { border-color: rgba(255, 238, 226, .08); }
 .payment-image { border-radius: 10px; }
 .empty-state { border-radius: 20px; }
+.profile-section { min-height: calc(100vh - 188px); padding-top: 42px; }
+.profile-card {
+  max-width: 650px;
+  margin: 46px auto 70px;
+  padding: clamp(26px, 6vw, 58px);
+  border: 1px solid rgba(255, 238, 226, .12);
+  border-radius: 28px;
+  background: linear-gradient(145deg, rgba(34, 26, 24, .96), rgba(20, 16, 15, .96));
+}
+.profile-card h1 { margin: 16px 0; font-size: clamp(42px, 8vw, 68px); line-height: .98; letter-spacing: -.06em; }
+.profile-card h1 span { color: var(--red); }
+.profile-card > div > p:not(.eyebrow) { max-width: 420px; color: var(--muted); font-size: 14px; line-height: 1.7; }
+.profile-identity { display: flex; align-items: center; gap: 18px; margin: 22px 0; }
+.profile-identity img, .profile-avatar-fallback, #profile-avatar-fallback {
+  display: grid;
+  place-items: center;
+  width: 76px;
+  height: 76px;
+  flex: 0 0 76px;
+  border-radius: 50%;
+  background: rgba(255, 81, 67, .14);
+  color: var(--orange);
+  font-size: 30px;
+}
+.profile-identity img { object-fit: cover; }
+.profile-identity h1 { margin: 0 0 5px; font-size: clamp(27px, 5vw, 42px); overflow-wrap: anywhere; }
+.profile-identity p { margin: 0; color: var(--muted); overflow-wrap: anywhere; }
+.profile-note { margin: 24px 0; color: var(--muted); font-size: 13px; line-height: 1.7; }
+.profile-sign-out { margin-left: 10px; }
 
 @media (max-width: 800px) {
   .section-wrap, .topbar, .admin-topbar, .admin-content, .admin-footer { width: calc(100% - 40px); }
@@ -447,12 +477,12 @@ h1, h2, h3, h4, strong, .button, .brand { font-family: var(--font); }
   html { scroll-padding-top: 65px; }
   .section-wrap, .admin-topbar, .admin-content, .admin-footer { width: calc(100% - 36px); }
   .topbar, .admin-topbar { height: 70px; }
-  .topbar { padding-inline: 18px; }
+  .topbar { width: calc(100% - 20px); padding-inline: 10px; }
   .brand { font-size: 12px; gap: 7px; }
   .brand img { width: 35px; height: 35px; }
-  .topbar nav { gap: 15px; font-size: 10px; }
+  .topbar nav { gap: 10px; font-size: 10px; }
   .topbar nav a:first-child { display: none; }
-  .topbar nav .nav-cta { padding: 9px 11px; }
+  .topbar nav .nav-cta { padding: 9px 10px; }
   .hero { display: flex; min-height: auto; flex-direction: column; align-items: stretch; padding: 60px 0 77px; }
   .hero h1 { font-size: clamp(70px, 19vw, 106px); margin: 27px 0 21px; }
   .hero-lede { max-width: 340px; font-size: 14px; }
@@ -493,6 +523,20 @@ h1, h2, h3, h4, strong, .button, .brand { font-family: var(--font); }
   .admin-team-body { grid-template-columns: 1fr; gap: 14px; padding: 15px; }
   .admin-team-header { padding: 14px 15px; }
   .admin-warning { flex-direction: column; gap: 5px; line-height: 1.5; }
+  .profile-section { min-height: calc(100vh - 152px); padding-top: 30px; }
+  .profile-card { margin: 30px auto 45px; padding: 25px 20px; border-radius: 22px; }
+  .profile-identity { align-items: flex-start; gap: 13px; }
+  .profile-identity img, #profile-avatar-fallback { width: 58px; height: 58px; flex-basis: 58px; font-size: 24px; }
+  .profile-sign-out { display: block; margin: 16px 0 0; min-height: 44px; }
+  .text-input, .member-fields .text-input { min-height: 48px; font-size: 16px; }
+  .button, .small-button, .icon-button { min-height: 44px; }
+}
+@media (max-width: 380px) {
+  .topbar nav { gap: 7px; font-size: 9px; }
+  .topbar nav a:nth-child(2) { display: none; }
+  .topbar nav .nav-cta { padding: 8px; }
+  .brand { font-size: 11px; }
+  .brand img { width: 32px; height: 32px; }
 }
 
 @media (prefers-reduced-motion: reduce) {

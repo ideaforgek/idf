@@ -25,15 +25,23 @@ Edge Function secret store; never add it to this frontend project.
 
 To initialize the database and private payment-proof bucket, run
 [`supabase/schema.sql`](./supabase/schema.sql) in the Supabase SQL Editor.
-After the admin has signed in with Google once, follow the bootstrap SQL
-comment at the bottom of that file to grant the admin role.
+After `suvedhansuveg14@gmail.com` has signed in with Google once, run
+[`supabase/migrations/20261026092700_ideaforge_grant_admin.sql`](./supabase/migrations/20261026092700_ideaforge_grant_admin.sql)
+in the Supabase SQL Editor to grant the admin role.
 Add the local origin and production origin to Supabase Authentication's
 redirect URL allow list so Google OAuth can return to the admin route.
 
 The public registration form saves teams and members to Supabase and uploads
 payment screenshots to the private `ideaforge-payment-proofs` bucket. The
-admin route uses Google OAuth and checks the `ideaforge_admins` table before
-showing live registration data or controls.
+registration form requires a Google-authenticated participant and uses that
+account's email for the team contact. The admin route also uses Google OAuth
+and checks the `ideaforge_admins` table before showing live registration data
+or controls.
+
+After installing the base schema, apply
+[`supabase/migrations/20261026090000_ideaforge_require_participant_auth.sql`](./supabase/migrations/20261026090000_ideaforge_require_participant_auth.sql)
+to require participant sign-in for team registration and match the team
+contact email to the authenticated account.
 
 After the base schema is installed, review the
 [`supabase/migrations/20261025230000_ideaforge_email_confirmation.sql`](./supabase/migrations/20261025230000_ideaforge_email_confirmation.sql)

@@ -12,6 +12,7 @@ const supabase =
 
 const publicView = document.querySelector("#public-view");
 const adminView = document.querySelector("#admin-view");
+const profilePage = document.querySelector("#profile-page");
 const teamForm = document.querySelector("#team-form");
 const paymentForm = document.querySelector("#payment-form");
 const successPanel = document.querySelector("#registration-success");
@@ -23,6 +24,87 @@ let draftTeam = null;
 let memberCount = INITIAL_MEMBER_COUNT;
 let selectedScreenshot = null;
 let toastTimer;
+let participantUser = null;
+let participantAuthReady = !supabase;
+
+function clearOAuthTokensFromUrl() {
+  const fragment = new URLSearchParams(window.location.hash.slice(1));
+  if (!fragment.has("access_token") && !fragment.has("refresh_token")) return;
+
+  window.history.replaceState(
+    window.history.state,
+    document.title,
+    `${window.location.pathname}${window.location.search}`,
+  );
+}
+
+function updateParticipantProfile(user) {
+  participantUser = user;
+  const profileLink = document.querySelector("#profile-nav-link");
+  const signedOutPanel = document.querySelector("#profile-signed-out");
+  const signedInPanel = document.querySelector("#profile-signed-in");
+  const avatar = document.querySelector("#profile-avatar");
+  const avatarFallback = document.querySelector("#profile-avatar-fallback");
+
+  profileLink.textContent = user ? "Profile" : "Sign in";
+  signedOutPanel.hidden = Boolean(user);
+  signedInPanel.hidden = !user;
+  const teamContactEmail = document.querySelector("#member-0-email");
+  if (teamContactEmail) {
+    teamContactEmail.value = user?.email ?? "";
+    teamContactEmail.readOnly = Boolean(user?.email);
+  }
+  if (!user) return;
+
+  const metadata = user.user_metadata ?? {};
+  document.querySelector("#profile-name").textContent =
+    metadata.full_name ?? metadata.name ?? user.email ?? "IdeaForge participant";
+  document.querySelector("#profile-email").textContent = user.email ?? "";
+
+  const avatarUrl = metadata.avatar_url ?? metadata.picture;
+  avatar.hidden = !avatarUrl;
+  avatarFallback.hidden = Boolean(avatarUrl);
+  if (avatarUrl) {
+    avatar.src = avatarUrl;
+  } else {
+    avatar.removeAttribute("src");
+  }
+}
+
+if (supabase) {
+  supabase.auth.onAuthStateChange((event, session) => {
+    if (session) clearOAuthTokensFromUrl();
+    updateParticipantProfile(session?.user ?? null);
+    participantAuthReady = true;
+    window.setTimeout(() => {
+      if (isAdminRoute()) {
+        if (session && (event === "SIGNED_IN" || event === "INITIAL_SESSION")) {
+          void renderAdmin();
+        }
+      } else {
+        refreshRegistrationState();
+      }
+    }, 0);
+  });
+
+  supabase.auth.getSession().then(({ data, error }) => {
+    clearOAuthTokensFromUrl();
+    if (error) {
+      console.error("Could not restore IdeaForge participant session.", error);
+      updateParticipantProfile(null);
+    } else {
+      updateParticipantProfile(data.session?.user ?? null);
+    }
+    participantAuthReady = true;
+    if (!isAdminRoute()) refreshRegistrationState();
+  }).catch((error) => {
+    clearOAuthTokensFromUrl();
+    console.error("Could not initialize IdeaForge authentication.", error);
+    participantAuthReady = true;
+    updateParticipantProfile(null);
+    if (!isAdminRoute()) refreshRegistrationState();
+  });
+}
 
 function escapeHtml(value) {
   return String(value).replace(/[&<>"']/g, (character) => {
@@ -61,6 +143,11 @@ function renderMembers() {
       </div>`;
     membersList.append(card);
   }
+  const teamContactEmail = document.querySelector("#member-0-email");
+  if (teamContactEmail) {
+    teamContactEmail.value = participantUser?.email ?? "";
+    teamContactEmail.readOnly = Boolean(participantUser?.email);
+  }
   document.querySelector("#member-count").textContent = `${memberCount} / ${MAX_MEMBER_COUNT}`;
   document.querySelector("#add-member").disabled = memberCount >= MAX_MEMBER_COUNT;
   document.querySelector("#remove-member").disabled = memberCount <= INITIAL_MEMBER_COUNT;
@@ -70,11 +157,20 @@ function refreshRegistrationState() {
   const setup = document.querySelector("#registration-setup");
   const configError = document.querySelector("#registration-config-error");
   const closed = document.querySelector("#registration-closed");
+  const authRequired = document.querySelector("#registration-auth-required");
   setup.hidden = true;
   configError.hidden = true;
   closed.hidden = true;
+  authRequired.hidden = true;
   teamForm.hidden = true;
   paymentForm.hidden = true;
+
+  if (!participantAuthReady) {
+    setup.hidden = false;
+    setup.querySelector("strong").textContent = "Checking sign-in…";
+    setup.querySelector("p").textContent = "Please wait while we restore your account.";
+    return;
+  }
 
   if (!supabase) {
     configError.hidden = false;
@@ -105,14 +201,17 @@ function refreshRegistrationState() {
         console.error("Could not check IdeaForge registration status.", error);
         configError.hidden = false;
         document.querySelector("#registration-config-message").textContent =
-          "We could not check registration status. Please try again later.";
+          error.message?.toLowerCase().includes("invalid api key")
+            ? "Supabase rejected the frontend API key. Copy this project's anon/publishable key into ideaforge/.env as VITE_SUPABASE_ANON_KEY, then restart the local server."
+            : "We could not check registration status. Please try again later.";
         return;
       }
 
       const isOpen = data.registration_open;
       closed.hidden = isOpen;
-      teamForm.hidden = !isOpen || Boolean(draftTeam) || !successPanel.hidden;
-      paymentForm.hidden = !isOpen || !draftTeam || !successPanel.hidden;
+      authRequired.hidden = !isOpen || Boolean(participantUser);
+      teamForm.hidden = !isOpen || !participantUser || Boolean(draftTeam) || !successPanel.hidden;
+      paymentForm.hidden = !isOpen || !participantUser || !draftTeam || !successPanel.hidden;
     })
     .catch((error) => {
       window.clearTimeout(connectionTimeout);
@@ -161,6 +260,43 @@ document.querySelector("#add-member").addEventListener("click", () => {
     memberCount += 1;
     renderMembers();
   }
+});
+
+document.querySelector("#participant-google-sign-in").addEventListener("click", async (event) => {
+  if (!supabase) {
+    showToast("Sign-in is not available because Supabase is not configured.");
+    return;
+  }
+  const button = event.currentTarget;
+  button.disabled = true;
+  button.textContent = "Opening Google…";
+  try {
+    const redirectTo = `${window.location.origin}${window.location.pathname}`;
+    const { error } = await supabase.auth.signInWithOAuth({
+      provider: "google",
+      options: { redirectTo },
+    });
+    if (error) {
+      console.error("Participant Google sign-in could not be started.", error);
+      showToast("Google sign-in could not be started. Please try again.");
+    }
+  } catch (error) {
+    console.error("Unexpected error starting participant Google sign-in.", error);
+    showToast("Google sign-in could not be started. Please try again.");
+  } finally {
+    button.disabled = false;
+    button.innerHTML = 'Continue with Google <span>↗</span>';
+  }
+});
+
+document.querySelector("#participant-sign-out").addEventListener("click", async () => {
+  const { error } = await supabase.auth.signOut();
+  if (error) {
+    console.error("Could not sign out IdeaForge participant.", error);
+    showToast("Could not sign out. Please try again.");
+    return;
+  }
+  window.location.hash = "#profile";
 });
 
 document.querySelector("#remove-member").addEventListener("click", () => {
@@ -341,12 +477,12 @@ function showAdminConnectionError(message) {
   document.querySelector("#admin-connection-message").textContent = message;
 }
 
-function showAdminLogin(message) {
+function showAdminLogin(message, canSignOut = false) {
   document.querySelector("#admin-dashboard").hidden = true;
   document.querySelector("#admin-connection-error").hidden = true;
   document.querySelector("#admin-login-panel").hidden = false;
   document.querySelector("#admin-login-message").textContent = message;
-  document.querySelector("#admin-sign-out").hidden = true;
+  document.querySelector("#admin-sign-out").hidden = !canSignOut;
 }
 
 async function renderAdmin() {
@@ -385,9 +521,11 @@ async function renderAdmin() {
   }
 
   if (!isAdmin) {
-    await supabase.auth.signOut();
     activeAdmin = null;
-    showAdminLogin("This Google account is not approved for IdeaForge admin access.");
+    showAdminLogin(
+      "You’re signed in, but this Google account is not approved for admin access. Ask an organizer to grant access, or sign out.",
+      true,
+    );
     return;
   }
 
@@ -541,9 +679,10 @@ document.querySelector("#admin-google-sign-in").addEventListener("click", async 
   button.disabled = true;
   button.textContent = "Opening Google…";
   try {
+    const redirectTo = `${window.location.origin}${window.location.pathname}${window.location.search}`;
     const { error } = await supabase.auth.signInWithOAuth({
       provider: "google",
-      options: { redirectTo: window.location.href },
+      options: { redirectTo },
     });
     if (error) {
       console.error("Google sign-in could not be started.", error);
@@ -652,8 +791,17 @@ function renderRoute() {
   const admin = isAdminRoute();
   publicView.hidden = admin;
   adminView.hidden = !admin;
-  if (admin) void renderAdmin();
-  else refreshRegistrationState();
+  if (admin) {
+    void renderAdmin();
+    return;
+  }
+
+  const isProfile = window.location.hash === "#profile";
+  profilePage.hidden = !isProfile;
+  for (const section of publicView.querySelectorAll("main > section:not(#profile-page)")) {
+    section.hidden = isProfile;
+  }
+  if (!isProfile) refreshRegistrationState();
 }
 
 window.addEventListener("popstate", renderRoute);

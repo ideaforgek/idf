@@ -30,10 +30,33 @@
           <a href="#about">The challenge</a>
           <a href="#rules">Rules</a>
           <a href="#register" class="nav-cta">Register <span aria-hidden="true">↗</span></a>
+          <a href="#profile" id="profile-nav-link">Sign in</a>
         </nav>
       </header>
 
       <main>
+        <section class="profile-section section-wrap" id="profile-page" hidden>
+          <div class="section-kicker"><span>04</span> YOUR IDEAFORGE ACCOUNT</div>
+          <div class="profile-card">
+            <div id="profile-signed-out">
+              <p class="eyebrow">PARTICIPANT PROFILE</p>
+              <h1>Your place<br /><span>in the forge.</span></h1>
+              <p>Sign in with Google to view your participant account.</p>
+              <button class="button button-primary" id="participant-google-sign-in" type="button">Continue with Google <span>↗</span></button>
+            </div>
+            <div id="profile-signed-in" hidden>
+              <p class="eyebrow">PARTICIPANT PROFILE</p>
+              <div class="profile-identity">
+                <img id="profile-avatar" alt="" hidden />
+                <span id="profile-avatar-fallback" aria-hidden="true">✳</span>
+                <div><h1 id="profile-name"></h1><p id="profile-email"></p></div>
+              </div>
+              <p class="profile-note">You’re signed in with Google. Use the registration form to register your team.</p>
+              <a class="button button-primary" href="#register">Register your team <span>↗</span></a>
+              <button class="small-button profile-sign-out" id="participant-sign-out" type="button">Sign out</button>
+            </div>
+          </div>
+        </section>
         <section class="hero section-wrap" id="home">
           <div class="hero-copy">
             <p class="eyebrow"><span class="pulse-dot"></span> One hackathon. Your next big idea.</p>
@@ -148,6 +171,14 @@
               <div id="registration-closed" class="closed-notice" hidden>
                 <span class="closed-icon">!</span>
                 <div><strong>Registration is currently closed.</strong><p>Check back with the organizers for updates.</p></div>
+              </div>
+              <div id="registration-auth-required" class="closed-notice" hidden>
+                <span class="closed-icon">↗</span>
+                <div>
+                  <strong>Sign in before registering.</strong>
+                  <p>Please sign in with Google to register your team.</p>
+                  <a class="text-link" href="#profile">Go to sign in <span>↗</span></a>
+                </div>
               </div>
               <form id="team-form" hidden>
                 <div class="form-heading">
